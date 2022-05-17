@@ -1,0 +1,157 @@
+/* Start NavBar */
+.navbar {
+  position: relative;
+  .logo {
+    width: 100px;
+  }
+  &::after {
+    content: '';
+    width: 920px;
+    height: 142px;
+    position: absolute;
+    right: 14%;
+    top: -18px;
+    background-image: url("~/assets/images/home-arrow.svg");
+    background-repeat: no-repeat;
+    z-index: -1;
+  }
+}
+
+@media only screen and (max-width: 1023px) {
+  .md-full {
+    width: 100%;
+  }
+
+  .navbar-mobile {
+    flex-direction: column;
+  }
+
+  .navbar-links {
+    height: 100vh;
+    padding: 20px;
+    left: 0;
+    z-index: 10;
+  }
+}
+/* End NavBar */
+
+/* Start Buttons */
+.btn {
+  background-color: #00F3B3;
+}
+/* End Button */
+
+/* Main Header Start */
+.header {
+  height: 350px;
+  position: relative;
+  .milions {
+    margin-bottom: -30px;
+    margin-left: -20px;
+    z-index: -1;
+  }
+  .smiles {
+    margin-top: -30px;
+    margin-left: -20px;
+    z-index: -1;
+  }
+  img {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+  }
+}
+//
+//@media only screen and (max-width: 1535px) {
+//  .header {
+//    img {
+//      right: -130px;
+//    }
+//  }
+//}
+//@media only screen and (max-width: 1410px) {
+//  .header {
+//    img {
+//      right: -230px;
+//    }
+//  }
+//}
+
+@media only screen and (max-width: 1279px) {
+  .header {
+    height: 250px;
+    img {
+      display: none;
+    }
+    .left {
+      margin-left: 34px;
+    }
+  }
+}
+/* End Header Start */
+
+/* Start About Us */
+.about-us {
+  margin-top: 40px;
+  position: relative;
+  .under-title {
+    position: absolute;
+    top: -10px;
+    left: -20px;
+  }
+}
+
+@media only screen and(max-width: 1279px) {
+  .about-us {
+    margin-top: 10px;
+    .under-title {
+      top: -5px;
+    }
+  }
+}
+/* End About Us */
+
+/* Start Our Core */
+.our-core {
+  position: relative;
+  .under-title {
+    position: absolute;
+    top: -10px;
+    right: -20px;
+  }
+}
+@media only screen and(max-width: 1279px) {
+  .core-image {
+    display: none;
+  }
+}
+/* End Our Core */
+
+/* Start Divisions */
+.divisions {
+  position: relative;
+  .under-title {
+    position: absolute;
+    top: -10px;
+    left: -20px;
+  }
+}
+/* End Divisions */
+
+/* Footer Start */
+@media only screen and(max-width: 1024px) {
+  .footer-links {
+    display: none !important;
+  }
+}
+/* Footer End */
+
+/* Apply Form Start */
+.apply-form {
+  position: relative;
+  .under-title {
+    margin-top: -50px;
+  }
+}
+/* Apply Form End */
