@@ -2,7 +2,7 @@
   <div class="container px-5 md:px-0 md:mx-auto apply-form mt-10">
     <h1 class="font-soulmaze text-2xl md:text-4xl text-center">Aplică acum</h1>
     <h1 class="text-4xl md:text-6xl font-soulmaze-outline under-title opacity-40 text-center">Aplică acum</h1>
-    <form action="#" method="POST">
+    <form @submit.prevent="submitForm">
       <div class="shadow overflow-hidden sm:rounded-md mt-10 md:w-1/2 w-auto md:mx-auto mx-0">
         <div class="px-4 py-5 bg-white sm:p-6">
           <div class="grid grid-cols-6 gap-6">
@@ -58,7 +58,7 @@
           </div>
         </div>
         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-          <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-black btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Aplică acum</button>
+          <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-black btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-200">Aplică acum</button>
         </div>
       </div>
     </form>
@@ -119,6 +119,30 @@ export default {
       email: '',
       age: '',
       question1: '',
+      tmpid: '',
+      csrf: ''
+    }
+  },
+  mounted() {
+    let that = this;
+    const response = this.$axios.get('/api/csrf').then((response) => {
+      that.csrf = response.data.csrfToken;
+    });
+  },
+  methods: {
+    submitForm(e) {
+      let that = this;
+      this.$axios.create({withCredentials: true}).post('/api/user/add', {
+        _csrf: that.csrf,
+        username: that.username,
+        password: that.password,
+        email: that.email,
+        age: that.age,
+        tmpid: that.tmpid,
+        question1: that.question1
+      }).then(function (response) {
+        console.log(response.data);
+      })
     }
   }
 }

@@ -43,11 +43,23 @@ export default {
     '@nuxtjs/tailwindcss',
   ],
 
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: 'http://localhost:5000'
+    }
+  },
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios'
   ],
+
+  axios: {
+    // proxy: true
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ['vee-validate']
   }
 }
