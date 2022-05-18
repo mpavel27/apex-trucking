@@ -4,11 +4,164 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://admin:test@127.0.0.1:3306/admin"
+  url      = "mysql://admin:admin@127.0.0.1:3306/apex-express"
 }
 
 model users {
-  id    Int     @id @default(autoincrement())
-  username String  @unique
-  password  String?  @db.Text
+  user_id                                   Int             @id @default(autoincrement())
+  user_name                                 String?         @db.VarChar(255)
+  email                                     String?         @db.VarChar(255)
+  token                                     String?         @db.VarChar(255)
+  password                                  String?         @db.VarChar(255)
+  created_at                                DateTime        @default(now()) @db.Timestamp(0)
+  patreon_rank                              Int?
+  staff_level                               Int?
+  trucker_rank                              Int?
+  truckersmp_id                             String?         @db.VarChar(255)
+  division                                  Int?
+  divisions_divisionsTousers_division       divisions?      @relation("divisionsTousers_division", fields: [division], references: [division_id], onDelete: Restrict, onUpdate: Restrict, map: "users_ibfk_2")
+  trucker_ranks                             trucker_ranks?  @relation(fields: [trucker_rank], references: [rank_id], onDelete: Restrict, onUpdate: Restrict, map: "users_ibfk_1")
+  bans_bans_staff_idTousers                 bans[]          @relation("bans_staff_idTousers")
+  bans_bans_user_idTousers                  bans[]          @relation("bans_user_idTousers")
+  deliveries                                deliveries[]
+  divisions_divisions_divison_leaderTousers divisions[]     @relation("divisions_divison_leaderTousers")
+  event_signups                             event_signups[]
+  events                                    events[]
+  warnings_usersTowarnings_staff_id         warnings[]      @relation("usersTowarnings_staff_id")
+  warnings_usersTowarnings_user_id          warnings[]      @relation("usersTowarnings_user_id")
+
+  @@index([division], map: "division")
+  @@index([trucker_rank], map: "trucker_rank")
+}
+
+model bans {
+  ban_id                     Int      @id @default(autoincrement())
+  user_id                    Int?
+  banned_at                  DateTime @default(now()) @db.Timestamp(0)
+  ban_reason                 String?  @db.VarChar(255)
+  ban_duration               DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  active                     Boolean?
+  staff_id                   Int?
+  users_bans_staff_idTousers users?   @relation("bans_staff_idTousers", fields: [staff_id], references: [user_id], onDelete: Restrict, onUpdate: Restrict, map: "bans_ibfk_2")
+  users_bans_user_idTousers  users?   @relation("bans_user_idTousers", fields: [user_id], references: [user_id], onDelete: Restrict, onUpdate: Restrict, map: "bans_ibfk_1")
+
+  @@index([staff_id], map: "staff_id")
+  @@index([user_id], map: "user_id")
+}
+
+model deliveries {
+  delivery_id            Int                     @id @default(autoincrement())
+  user_id                Int?
+  verified               Boolean?
+  game                   Int?
+  manual                 Boolean?
+  delivered_at           DateTime                @default(now()) @db.Timestamp(0)
+  cargo                  String?                 @db.VarChar(255)
+  weight                 Float?                  @db.Float
+  damage                 Int?
+  distance               Int?
+  estimated_income       Float?                  @db.Float
+  actual_income          Float?                  @db.Float
+  source_city            String?                 @db.VarChar(255)
+  source_company         String?                 @db.VarChar(255)
+  destination_city       String?                 @db.VarChar(255)
+  destination_company    String?                 @db.VarChar(255)
+  division               Int?
+  promotional            Int?
+  notes                  String?                 @db.VarChar(255)
+  divisions              divisions?              @relation(fields: [division], references: [division_id], onDelete: Restrict, onUpdate: Restrict, map: "deliveries_ibfk_2")
+  promotional_deliveries promotional_deliveries? @relation(fields: [promotional], references: [promotional_id], onDelete: Restrict, onUpdate: Restrict, map: "deliveries_ibfk_3")
+  users                  users?                  @relation(fields: [user_id], references: [user_id], onDelete: Restrict, onUpdate: Restrict, map: "deliveries_ibfk_1")
+
+  @@index([division], map: "division")
+  @@index([promotional], map: "promotional")
+  @@index([user_id], map: "user_id")
+}
+
+model divisions {
+  division_id                           Int          @id @default(autoincrement())
+  division_name                         String?      @db.VarChar(255)
+  divison_leader                        Int?
+  division_handbook                     String?      @db.Text
+  division_bonus                        Float?       @db.Float
+  users_divisions_divison_leaderTousers users?       @relation("divisions_divison_leaderTousers", fields: [divison_leader], references: [user_id], onDelete: Restrict, onUpdate: Restrict, map: "divisions_ibfk_1")
+  deliveries                            deliveries[]
+  users_divisionsTousers_division       users[]      @relation("divisionsTousers_division")
+
+  @@index([divison_leader], map: "divison_leader")
+}
+
+model event_signups {
+  signup_id Int      @id @default(autoincrement())
+  user_id   Int?
+  event_id  Int?
+  signup_at DateTime @default(now()) @db.Timestamp(0)
+  events    events?  @relation(fields: [event_id], references: [event_id], onDelete: Restrict, onUpdate: Restrict, map: "event_signups_ibfk_2")
+  users     users?   @relation(fields: [user_id], references: [user_id], onDelete: Restrict, onUpdate: Restrict, map: "event_signups_ibfk_1")
+
+  @@index([event_id], map: "event_id")
+  @@index([user_id], map: "user_id")
+}
+
+model events {
+  event_id        Int             @id @default(autoincrement())
+  title           String?         @db.VarChar(255)
+  game            Int?
+  creator_id      Int?
+  created_at      DateTime        @default(now()) @db.Timestamp(0)
+  event_start     DateTime        @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  event_meetup    DateTime        @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  description     String?         @db.VarChar(255)
+  skin            String?         @db.VarChar(255)
+  truck           String?         @db.VarChar(255)
+  trailer         String?         @db.VarChar(255)
+  voice_channel   String?         @db.VarChar(255)
+  server          String?         @db.VarChar(255)
+  meetup_location String?         @db.VarChar(255)
+  game_version    String?         @db.VarChar(255)
+  start_picture   String?         @db.VarChar(255)
+  route_picture   String?         @db.VarChar(255)
+  dlcs            String?         @db.VarChar(255)
+  users           users?          @relation(fields: [creator_id], references: [user_id], onDelete: Restrict, onUpdate: Restrict, map: "events_ibfk_1")
+  event_signups   event_signups[]
+
+  @@index([creator_id], map: "creator_id")
+}
+
+model promotional_deliveries {
+  promotional_id Int          @id @default(autoincrement())
+  name           String?      @db.VarChar(255)
+  description    String?      @db.VarChar(255)
+  start_at       DateTime     @default(now()) @db.Timestamp(0)
+  end_at         DateTime     @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  game           Int?
+  cargo          String?      @db.VarChar(255)
+  bonus          Float?       @db.Float
+  active         Boolean?
+  deliveries     deliveries[]
+}
+
+model trucker_ranks {
+  rank_id             Int             @id @default(autoincrement())
+  rank_name           String?         @db.VarChar(255)
+  next_rank_value     Float?          @db.Float
+  next_rank           Int?
+  trucker_ranks       trucker_ranks?  @relation("trucker_ranksTotrucker_ranks_next_rank", fields: [next_rank], references: [rank_id], onDelete: Restrict, onUpdate: Restrict, map: "trucker_ranks_ibfk_1")
+  other_trucker_ranks trucker_ranks[] @relation("trucker_ranksTotrucker_ranks_next_rank")
+  users               users[]
+
+  @@index([next_rank], map: "next_rank")
+}
+
+model warnings {
+  warning_id                     Int      @id @default(autoincrement())
+  user_id                        Int?
+  warned_at                      DateTime @default(now()) @db.Timestamp(0)
+  warn_reason                    String?  @db.VarChar(255)
+  staff_id                       Int?
+  users_usersTowarnings_staff_id users?   @relation("usersTowarnings_staff_id", fields: [staff_id], references: [user_id], onDelete: Restrict, onUpdate: Restrict, map: "warnings_ibfk_2")
+  users_usersTowarnings_user_id  users?   @relation("usersTowarnings_user_id", fields: [user_id], references: [user_id], onDelete: Restrict, onUpdate: Restrict, map: "warnings_ibfk_1")
+
+  @@index([staff_id], map: "staff_id")
+  @@index([user_id], map: "user_id")
 }
