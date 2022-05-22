@@ -17,29 +17,29 @@
             </div>
           </div>
           <ul class="mt-5">
-            <li class="px-6 py-3 rounded-sm mb-2 bg-primary ml-8 rounded-l-full">
-              <a aria-current="page" class="block text-slate-200 hover:text-white truncate transition duration-150 hover:text-slate-200 active" href="/">
+            <li class="px-6 py-3 rounded-sm mb-2 ml-8 rounded-l-full" :class="(this.$route.path == '/dashboard') ? 'bg-primary font-bold' : ''">
+              <NuxtLink aria-current="page" class="block text-slate-200 hover:text-white truncate transition duration-150 hover:text-slate-200 active" to="/dashboard">
                 <div class="flex justify-between items-center">
-                  <span class="text-sm font-bold text-black">
-                    Dashboard
+                  <span class="text-sm text-black">
+                    Pagina Principală
                   </span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 17 17">
                     <path fill="#000" d="M12.686 15.583h-.9a1.868 1.868 0 0 1-1.87-1.87v-2.38c0-.39-.155-.758-.439-1.027a1.43 1.43 0 0 0-1.055-.39c-.737.036-1.339.73-1.339 1.538v2.26c0 1.034-.836 1.87-1.87 1.87h-.9c-1.21 0-2.188-1.006-2.188-2.239V7.19c0-.893.425-1.757 1.133-2.295l4.01-3.082c.75-.517 1.72-.517 2.436-.02l4.038 3.102a2.917 2.917 0 0 1 1.133 2.295v6.155c0 1.232-.985 2.238-2.189 2.238ZM8.5 8.5c.73 0 1.417.276 1.948.78.56.53.885 1.281.885 2.053v2.38c0 .248.206.454.454.454h.9c.424 0 .771-.369.771-.822V7.19c0-.46-.212-.9-.58-1.176l-4.01-3.082c-.205-.141-.53-.141-.772.022L4.123 6.007a1.49 1.49 0 0 0-.581 1.176v6.155c0 .453.347.822.772.822h.9a.457.457 0 0 0 .453-.454v-2.26c0-1.572 1.175-2.868 2.684-2.946h.156H8.5Z"/>
                   </svg>
                 </div>
-              </a>
+              </NuxtLink>
             </li>
-            <li class="px-6 py-3 rounded-sm mb-2 ml-8 rounded-l-full">
-              <a aria-current="page" class="block text-slate-200 hover:text-white truncate transition duration-150 hover:text-slate-200 active" href="/">
+            <li v-if="getUserInfo.staff_level > 0" class="px-6 py-3 rounded-sm mb-2 ml-8 rounded-l-full" :class="(this.$route.path == '/dashboard/applications') ? 'bg-primary font-bold' : ''">
+              <NuxtLink aria-current="page" class="block text-slate-200 hover:text-white truncate transition duration-150 hover:text-slate-200 active" to="/dashboard/applications">
                 <div class="flex justify-between items-center">
-                  <span class="text-sm font-medium text-black">
-                    Dashboard
+                  <span class="text-sm text-black">
+                    Aplicații trimise
                   </span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 17 17">
                     <path fill="#000" d="M12.686 15.583h-.9a1.868 1.868 0 0 1-1.87-1.87v-2.38c0-.39-.155-.758-.439-1.027a1.43 1.43 0 0 0-1.055-.39c-.737.036-1.339.73-1.339 1.538v2.26c0 1.034-.836 1.87-1.87 1.87h-.9c-1.21 0-2.188-1.006-2.188-2.239V7.19c0-.893.425-1.757 1.133-2.295l4.01-3.082c.75-.517 1.72-.517 2.436-.02l4.038 3.102a2.917 2.917 0 0 1 1.133 2.295v6.155c0 1.232-.985 2.238-2.189 2.238ZM8.5 8.5c.73 0 1.417.276 1.948.78.56.53.885 1.281.885 2.053v2.38c0 .248.206.454.454.454h.9c.424 0 .771-.369.771-.822V7.19c0-.46-.212-.9-.58-1.176l-4.01-3.082c-.205-.141-.53-.141-.772.022L4.123 6.007a1.49 1.49 0 0 0-.581 1.176v6.155c0 .453.347.822.772.822h.9a.457.457 0 0 0 .453-.454v-2.26c0-1.572 1.175-2.868 2.684-2.946h.156H8.5Z"/>
                   </svg>
                 </div>
-              </a>
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -50,7 +50,12 @@
 
 <script>
 export default {
-  name: "Sidebar"
+  name: "Sidebar",
+  computed: {
+    getUserInfo() {
+      return this.$store.getters.getUserInfo;
+    }
+  }
 }
 </script>
 

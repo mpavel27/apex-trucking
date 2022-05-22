@@ -2,6 +2,7 @@ module.exports = {
   purge: {
     content: [
       'node_modules/tv-*/dist/tv-*.umd.min.js',
+      './node_modules/flowbite/**/*.js'
     ],
   },
   darkMode: false, // or 'media' or 'class'
@@ -16,5 +17,7 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 }

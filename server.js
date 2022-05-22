@@ -60,35 +60,57 @@ app.post('/api/login', async function(req, res, next) {
     const { email, password } = req.body;
 
     try {
-        const user = await prisma.users.findUnique({
+        const user = await prisma.users.findFirst({
             where: {
                 email: email
             }
         });
 
         if (!user) {
-            const error = new Error("user with this email not found!");
-            error.statusCode = 401;
-            throw error;
+            return res.send({
+                error: 'Ne pare rău, se pare că datele introduse sunt invalide, vă rugăm încercați din nou.'
+            });
         }
 
-        const comparePassword = bcrypt.compare(password, user.password);
-
-        if (!comparePassword) {
-            const error = new Error("password is not match!");
-            error.statusCode = 401;
-            throw error;
-        }
-        const token = jwt.sign({ user: user }, "$2a$12$trUk6rvP/fmWsI5Sjc17TegRJBJZBZ2jfMzvt6UB.VI/TGgkuiPTu", {
-            expiresIn: "20m", // it will expire token after 20 minutes and if the user then refresh the page will log out
+        bcrypt.compare(password, user.password, (err, result) => {
+            if (err) return callback(err);
+            if(!result) {
+                return res.send({
+                    error: 'Ne pare rău, se pare că datele introduse sunt invalide, vă rugăm încercați din nou.'
+                });
+            }
+            const token = jwt.sign({ user: user }, "$2a$12$trUk6rvP/fmWsI5Sjc17TegRJBJZBZ2jfMzvt6UB.VI/TGgkuiPTu", {
+                expiresIn: "20m", // it will expire token after 20 minutes and if the user then refresh the page will log out
+            });
+            res.status(200).json({ token: token });
         });
-        res.status(200).json({ token: token });
+        // if (!comparePassword) {
+        //     return res.send({
+        //         error: 'Numele sau parola nu corespund'
+        //     });
+        // }
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
         next(err);
     }
+});
+
+app.get('/api/applications', async function(req, res) {
+    const applications = await prisma.application.findMany({
+        include: {
+            users: {
+                select: {
+                    user_name: true,
+                    email: true,
+                    truckersmp_id: true,
+                    created_at: true
+                }
+            }
+        }
+    })
+    return res.json({application: applications});
 });
 
 app.get('/api/getUser', async function(req, res) {

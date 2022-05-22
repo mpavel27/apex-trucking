@@ -73,3 +73,7 @@
 .text-secondary {
   color: #914FF7;
 }
+
+input:focus {
+  box-shadow: unset !important;
+}

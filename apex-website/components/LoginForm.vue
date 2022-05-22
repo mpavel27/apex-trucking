@@ -3,7 +3,7 @@
     <div data-aos="fade-down" data-aos-offset="500" data-aos-duration="500">
       <h1 class="font-soulmaze text-2xl md:text-4xl text-center">Loghează-te</h1>
       <h1 class="text-4xl md:text-6xl font-soulmaze-outline under-title opacity-40 text-center">Loghează-te</h1>
-      <p CLASS="text-gray-400 text-center">Nu ai deja un cont? <NuxtLink to="/login" class="text-black font-semibold">Înregistrează-te</NuxtLink></p>
+      <p CLASS="text-gray-400 text-center">Nu ai deja un cont? <NuxtLink to="/apply-now" class="text-black font-semibold">Aplică acum!</NuxtLink></p>
     </div>
     <ValidationObserver v-slot="{ invalid }">
       <form @submit.prevent="login" data-aos="fade-up" data-aos-duration="500">
@@ -72,6 +72,7 @@ export default {
         password: ""
       },
       csrf: null,
+      error: null
     };
   },
   mounted() {
@@ -82,14 +83,17 @@ export default {
   },
   methods: {
     async login() {
-      try {
-        let response = await this.$auth.loginWith("local", {
-          data: this.loginData
-        });
-        this.$router.push("/dashboard");
-        console.log(response);
-      } catch (err) {
-        console.log(err);
+      let response = await this.$auth.loginWith("local", {
+        data: this.loginData
+      });
+      this.$router.push("/dashboard");
+      if(response.data.error != null) {
+        this.$toast.show({
+          type: 'danger',
+          title: 'Error',
+          message: response.data.error,
+          timeout: 3
+        })
       }
     }
   }
