@@ -37,7 +37,7 @@
           <NuxtLink to="/">Acasă</NuxtLink>
           <a href="#">Despre Noi</a>
           <a href="#">Contact</a>
-          <a href="#">Driver Hub</a>
+          <NuxtLink to="/dashboard">Driver Hub</NuxtLink>
           <NuxtLink to="apply-now" class="btn py-2 px-7 rounded-full">Aplică acum!</NuxtLink>
         </div>
       </div>

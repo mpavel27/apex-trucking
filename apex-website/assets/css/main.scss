@@ -41,3 +41,35 @@
 .bg-github {
   background-color: #171515;
 }
+
+.home-app {
+  &::before {
+    content: '';
+    background-image: url("~/assets/images/burshed-circle-left.svg");
+    position: absolute;
+    width: 614px;
+    height: 956px;
+    left: 0;
+  }
+  &::after {
+    content: '';
+    background-image: url("~/assets/images/burshed-circle-right.svg");
+    position: absolute;
+    width: 665px;
+    height: 943px;
+    right: 0;
+    top: 40%;
+    z-index: -1;
+  }
+}
+
+.bg-primary {
+  background-color: #00F3B3;
+}
+
+.border-secondary {
+  border-color: #914FF7;
+}
+.text-secondary {
+  color: #914FF7;
+}

@@ -1,7 +1,7 @@
 <template>
   <div class="header flex items-center">
     <div class="container px-5 md:px-0 md:mx-auto">
-      <div class="flex justify-between items-center" data-aos="fade-right">
+      <div class="flex justify-between items-center" data-aos="fade-down" data-aos-offset="500" data-aos-duration="500">
         <div class="flex flex-col">
           <h1 class="text-4xl md:text-6xl font-soulmaze-outline milions opacity-40">Millions of Miles</h1>
           <h1 class="text-2xl md:text-4xl font-soulmaze">Millions of Miles<br>with Smiles<span class="text-primary">.</span></h1>
@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <img data-aos="fade-left" :src="require('~/assets/images/apex-truck.png')">
+    <img data-aos="fade-down" data-aos-offset="500" data-aos-duration="500" :src="require('~/assets/images/apex-truck.png')">
   </div>
 </template>
 

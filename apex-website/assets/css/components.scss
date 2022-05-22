@@ -39,6 +39,9 @@
 .btn {
   background-color: #00F3B3;
 }
+.btn:disabled {
+  opacity: 0.5;
+}
 /* End Button */
 
 /* Main Header Start */
@@ -155,3 +158,20 @@
   }
 }
 /* Apply Form End */
+
+/* Sidebar Start */
+.sidebar {
+  border-radius: 24px;
+}
+/* Sidebar End */
+
+/* Dashboard Start */
+.dashboard {
+  position: relative;
+  .under-title {
+    position: absolute;
+    top: -10px;
+    left: -15px;
+  }
+}
+/* Dashboard End */

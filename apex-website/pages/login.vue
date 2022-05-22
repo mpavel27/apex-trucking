@@ -1,15 +1,15 @@
 <template>
   <div>
     <NavBar />
-    <ApplyForm />
+    <LoginForm />
     <Footer />
   </div>
 </template>
 
 <script>
 export default {
-  name: "apply-now",
-  middleware: ['isGuest']
+  name: "login",
+  middleware: ['isGuest'],
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="container px-5 md:px-0 md:mx-auto mt-20" data-aos="fade-up">
+  <div class="container px-5 md:px-0 md:mx-auto mt-20" data-aos="fade-up" data-aos-duration="800">
     <div class="grid md:grid-cols-2 grid-cols-1 gap-2">
       <div class="md:mb-0 mb-10">
         <img class="shadow-xl our-core-img" :src="require('~/assets/images/application.png')">

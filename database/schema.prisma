@@ -10,10 +10,11 @@ datasource db {
 model users {
   user_id                                   Int             @id @default(autoincrement())
   user_name                                 String?         @db.VarChar(255)
-  email                                     String?         @db.VarChar(255)
-  token                                     String?         @db.VarChar(255)
+  token                                     String?         @unique(map: "token") @db.VarChar(256)
+  email                                     String?         @unique(map: "email") @db.VarChar(255)
   password                                  String?         @db.VarChar(255)
   created_at                                DateTime        @default(now()) @db.Timestamp(0)
+  active                                    Boolean
   patreon_rank                              Int?
   staff_level                               Int?
   trucker_rank                              Int?
@@ -21,6 +22,7 @@ model users {
   division                                  Int?
   divisions_divisionsTousers_division       divisions?      @relation("divisionsTousers_division", fields: [division], references: [division_id], onDelete: Restrict, onUpdate: Restrict, map: "users_ibfk_2")
   trucker_ranks                             trucker_ranks?  @relation(fields: [trucker_rank], references: [rank_id], onDelete: Restrict, onUpdate: Restrict, map: "users_ibfk_1")
+  application                               application[]
   bans_bans_staff_idTousers                 bans[]          @relation("bans_staff_idTousers")
   bans_bans_user_idTousers                  bans[]          @relation("bans_user_idTousers")
   deliveries                                deliveries[]
@@ -163,5 +165,15 @@ model warnings {
   users_usersTowarnings_user_id  users?   @relation("usersTowarnings_user_id", fields: [user_id], references: [user_id], onDelete: Restrict, onUpdate: Restrict, map: "warnings_ibfk_1")
 
   @@index([staff_id], map: "staff_id")
+  @@index([user_id], map: "user_id")
+}
+
+model application {
+  application_id Int     @id @default(autoincrement())
+  age            String? @db.VarChar(255)
+  about_section  String? @db.VarChar(255)
+  user_id        Int?
+  users          users?  @relation(fields: [user_id], references: [user_id], onDelete: Restrict, onUpdate: Restrict, map: "application_ibfk_1")
+
   @@index([user_id], map: "user_id")
 }
