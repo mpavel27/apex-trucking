@@ -53,7 +53,8 @@ export default {
   modules: [
     '@nuxtjs/axios',
     ['nuxt-tailvue', {toast: true}],
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/dayjs'
   ],
 
   axios: {

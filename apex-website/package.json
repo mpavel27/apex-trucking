@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nuxtjs/auth-next": "5.0.0-1648802546.c9880dc",
+    "@nuxtjs/dayjs": "^1.4.1",
     "aos": "^2.3.4",
     "core-js": "^3.19.3",
     "flowbite": "^1.4.7",

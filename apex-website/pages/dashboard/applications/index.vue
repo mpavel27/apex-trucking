@@ -38,10 +38,10 @@
                       {{ application.users.truckersmp_id }}
                     </td>
                     <td class="px-6 py-4">
-                      {{ application.users.created_at }}
+                      {{ $dayjs(application.users.created_at).format('DD MMM YYYY - hh:mm A') }}
                     </td>
                     <td class="px-6 py-4">
-                      <button type="button" class="btn rounded-full py-3 px-5 font-semibold text-black">Vezi aplicația</button>
+                      <a :href="`/dashboard/applications/${application.application_id}`" class="btn rounded-full py-3 px-5 font-semibold text-black">Vezi aplicația</a>
                     </td>
                   </tr>
                   </tbody>
@@ -58,13 +58,14 @@
 <script>
 export default {
   name: "applications",
+  middleware: "isAuthenticated",
   data() {
     return {
       applications: null,
-      created_at: null
     }
   },
   mounted() {
+    let that = this
     const response = this.$axios.get('/api/applications').then((response) => {
       this.applications = response.data.application
       console.log(this.applications)

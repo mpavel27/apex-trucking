@@ -157,7 +157,7 @@ export default {
           timeout: 3
         })
       });
-      if(res && res.data == 'success') {
+      if(res && res.data === 'success') {
         this.$toast.show({
           type: 'success',
           title: 'Înregistrare',

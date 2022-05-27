@@ -43,7 +43,8 @@ app.post('/api/user/add', async (req, res) => {
             user_name: username,
             email: email,
             password: password,
-            truckersmp_id: tmpid
+            truckersmp_id: tmpid,
+            active: false
         }
     });
     const applications = await prisma.application.create({
@@ -84,11 +85,6 @@ app.post('/api/login', async function(req, res, next) {
             });
             res.status(200).json({ token: token });
         });
-        // if (!comparePassword) {
-        //     return res.send({
-        //         error: 'Numele sau parola nu corespund'
-        //     });
-        // }
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -112,6 +108,44 @@ app.get('/api/applications', async function(req, res) {
     })
     return res.json({application: applications});
 });
+
+app.get('/api/application/:id', async function(req, res) {
+    const application = await prisma.application.findUnique({
+        where: {
+            application_id: parseInt(req.params.id),
+        },
+        include: {
+            users: {
+                select: {
+                    user_name: true,
+                    email: true,
+                    truckersmp_id: true,
+                    created_at: true
+                }
+            }
+        }
+    })
+    return res.json({application: application})
+});
+
+app.post('/api/application/:appId/status/:id', async function(req, res) {
+    let application;
+    const deleteApplication = await prisma.application.delete({
+        where: {
+            application_id: parseInt(req.params.appId),
+        }
+    })
+    application = deleteApplication
+    const updateUser = await prisma.users.update({
+        where: {
+            user_id: application.user_id
+        },
+        data: {
+            active: (req.params.id == 1) ? true : false,
+        }
+    })
+    res.send('success');
+})
 
 app.get('/api/getUser', async function(req, res) {
     const authHeader = req.get("Authorization");

@@ -17,7 +17,7 @@
             </div>
           </div>
           <ul class="mt-5">
-            <li class="px-6 py-3 rounded-sm mb-2 ml-8 rounded-l-full" :class="(this.$route.path == '/dashboard') ? 'bg-primary font-bold' : ''">
+            <li class="px-6 py-3 rounded-sm mb-2 ml-8 rounded-l-full" :class="(this.$route.path == '/dashboard' || this.$route.path == '/dashboard/') ? 'bg-primary font-bold' : ''">
               <NuxtLink aria-current="page" class="block text-slate-200 hover:text-white truncate transition duration-150 hover:text-slate-200 active" to="/dashboard">
                 <div class="flex justify-between items-center">
                   <span class="text-sm text-black">
@@ -29,7 +29,7 @@
                 </div>
               </NuxtLink>
             </li>
-            <li v-if="getUserInfo.staff_level > 0" class="px-6 py-3 rounded-sm mb-2 ml-8 rounded-l-full" :class="(this.$route.path == '/dashboard/applications') ? 'bg-primary font-bold' : ''">
+            <li v-if="getUserInfo.staff_level > 0" class="px-6 py-3 rounded-sm mb-2 ml-8 rounded-l-full" :class="(this.$route.path == '/dashboard/applications' || this.$route.path == '/dashboard/applications/') ? 'bg-primary font-bold' : ''">
               <NuxtLink aria-current="page" class="block text-slate-200 hover:text-white truncate transition duration-150 hover:text-slate-200 active" to="/dashboard/applications">
                 <div class="flex justify-between items-center">
                   <span class="text-sm text-black">
