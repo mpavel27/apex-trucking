@@ -77,7 +77,7 @@ export default {
   },
   mounted() {
     let that = this;
-    const response = this.$axios.get('/api/csrf').then((response) => {
+    const response = this.$axios.get('/api/v1/csrf').then((response) => {
       that.csrf = response.data.csrfToken;
     });
   },

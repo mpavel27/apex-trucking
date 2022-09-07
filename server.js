@@ -32,12 +32,14 @@ app.use(function (req, res, next) {
 });
 
 app.post('/api/user/add', async (req, res) => {
+    console.log(req.body)
     let username = req.body.username,
         email = req.body.email,
-        password = await bcrypt.hash(req.body.password.toString(), 10),
         question1 = req.body.question1,
         tmpid = req.body.tmpid,
-        age = req.body.age;
+        age = req.body.age,
+        password = await bcrypt.hash(req.body.password, 10)
+
     const user = await prisma.users.create({
         data: {
             user_name: username,
@@ -209,6 +211,18 @@ app.get('/api/checkToken/:token', async (req, res) => {
 
 app.get('/greeting',(req,res)=>{
     res.json({greeting:'Hello'})
+})
+
+app.post('/api/generateToken/', async function(req, res) {
+    await prisma.users.update({
+        where: {
+            id: req.userId,
+        },
+        data: {
+            token: await bcrypt.hash((req.username + Date.now()).toString(), 1),
+        },
+    })
+    res.json('success')
 })
 
 app.listen(5000,()=>console.log('server started'))

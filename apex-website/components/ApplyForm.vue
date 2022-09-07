@@ -130,14 +130,14 @@ export default {
   },
   mounted() {
     let that = this;
-    const response = this.$axios.get('/api/csrf').then((response) => {
+    const response = this.$axios.get('/api/v1/csrf', {withCredentials: true}).then((response) => {
       that.csrf = response.data.csrfToken;
     });
   },
   methods: {
     async submitForm(e) {
       let that = this;
-      let res = await this.$axios.create({withCredentials: true}).post('/api/user/add', {
+      let res = await this.$axios.post('/api/v1/accounts/create', {
         'username': that.username,
         'password': that.password,
         'email': that.email,
@@ -145,9 +145,10 @@ export default {
         'tmpid': that.tmpid,
         'question1': that.question1
       }, {
+        withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
-          'csrf-token-apex': that.csrf
+          'X-CSRF-Token': that.csrf
         }
       }).catch((e) => {
         this.$toast.show({
