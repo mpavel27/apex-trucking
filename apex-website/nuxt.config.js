@@ -24,7 +24,7 @@ export default {
   ],
 
   plugins: [
-    { src: "@/plugins/aos", mode: "client" },
+    { src: "@/plugins/aos", mode: "client" }
   ],
 
   purgeCSS: {
@@ -68,10 +68,10 @@ export default {
           autoFetch: true
         },
         endpoints: {
-          login: { url: "/api/login", method: "post", withCredentials: true },
+          login: { url: "/api/v1/accounts/login", method: "post" },
           logout: false,
-          user: { url: "/api/getUser", method: "get" }
-        }
+          user: { url: "/api/v1/accounts/getUser", method: "get" }
+        },
       }
     }
   },

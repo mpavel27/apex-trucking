@@ -77,29 +77,24 @@ export default {
   },
   mounted() {
     let that = this;
-    const response = this.$axios.get('/api/v1/csrf').then((response) => {
+    const response = this.$axios.get('/api/v1/csrf', {withCredentials: true}).then((response) => {
       that.csrf = response.data.csrfToken;
     });
   },
   methods: {
     async login() {
-      let response = await this.$auth.loginWith("local", {
-        data: this.loginData
-      });
-      this.$router.push("/dashboard");
-      if(response.data.error != null) {
-        this.$toast.show({
-          type: 'danger',
-          title: 'Error',
-          message: response.data.error,
-          timeout: 3
-        })
-      }
+      let that = this;
+      let response = await this.$axios.post("/api/v1/accounts/login", this.loginData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': that.csrf
+        }
+      })
+
+      this.$auth.setUserToken(response.data.token, response.data.token)
+        .then(() => this.$router.push("/dashboard"))
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
